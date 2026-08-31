@@ -249,18 +249,42 @@ st.caption(
     "nunca se muestran, grafican ni exportan."
 )
 
+def _select_only_sheet(chosen_sheet, all_sheets):
+    """Callback: fuerza selección única — marca la hoja elegida y desmarca
+    el resto, emulando un grupo de radio-buttons con checkboxes."""
+    for s in all_sheets:
+        st.session_state[f"sheet_cb_{s}"] = (s == chosen_sheet)
+    st.session_state["_active_sheet"] = chosen_sheet
+
+
 with st.sidebar:
     st.header("1. Cargar archivo")
-    uploaded = st.file_uploader(
-        "Archivo de resultados (.xlsx o .csv)", type=["xlsx", "xls", "csv"]
-    )
+    uploaded = st.file_uploader("Archivo de resultados (.xlsx)", type=["xlsx"])
     sheet_choice = None
-    if uploaded is not None and uploaded.name.lower().endswith((".xlsx", ".xls")):
+    if uploaded is not None:
         try:
             sheets = get_sheet_names(uploaded.getvalue(), uploaded.name)
-            sheet_choice = st.selectbox("Hoja", sheets, index=0)
         except Exception as e:
+            sheets = None
             st.error(f"No se pudo leer el libro de Excel: {e}")
+
+        if sheets:
+            # Si es un archivo nuevo (hojas distintas a las de la selección
+            # activa), se selecciona automáticamente la primera hoja.
+            if st.session_state.get("_active_sheet") not in sheets:
+                for s in sheets:
+                    st.session_state[f"sheet_cb_{s}"] = (s == sheets[0])
+                st.session_state["_active_sheet"] = sheets[0]
+
+            if len(sheets) > 1:
+                st.markdown("**Hoja**")
+                for s in sheets:
+                    st.checkbox(
+                        s, key=f"sheet_cb_{s}",
+                        on_change=_select_only_sheet, args=(s, sheets),
+                    )
+
+            sheet_choice = st.session_state["_active_sheet"]
 
 if uploaded is None:
     st.info("Carga un archivo desde la barra lateral para comenzar.")
