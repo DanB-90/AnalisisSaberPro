@@ -19,9 +19,10 @@ estudiantes.
    ```
 
 3. Se abrirá en tu navegador (normalmente `http://localhost:8501`). Desde la
-   barra lateral, carga el archivo `.xlsx` o `.csv` con los resultados
-   (por ejemplo `RESULTADOS 1-2026.xlsx`) y, si el libro tiene varias hojas,
-   elige la hoja correspondiente.
+   barra lateral, carga el archivo `.xlsx` con los resultados (por ejemplo
+   `RESULTADOS 1-2026.xlsx`; no se aceptan otros formatos) y, si el libro
+   tiene varias hojas, marca con el checkbox la hoja que quieres analizar
+   (solo puede haber una hoja seleccionada a la vez).
 
 ## Qué hace con la privacidad de los datos
 
