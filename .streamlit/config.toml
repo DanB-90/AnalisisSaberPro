@@ -1,0 +1,11 @@
+[theme]
+# Paleta institucional UCO (Manual de identidad 2024): verde y amarillo/oro
+# como colores principales.
+primaryColor = "#008b50"
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#f8f6ef"
+textColor = "#1a1a1a"
+font = "sans serif"
+
+[browser]
+gatherUsageStats = false
